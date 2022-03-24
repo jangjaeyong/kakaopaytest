@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.kakaopaytest.test.TestMapper">
+    <select id="selectTest" resultType="com.test.kakaopaytest.test.DbTest">
+        select * from test
+    </select>
+
+    <insert id="saveData" parameterType="com.test.kakaopaytest.test.Test">
+        insert into board(userId, userPw, title, contents)
+        values(#{userId}, SHA2(#{userPw},256), #{title}, #{contents})
+    </insert>
+
+    <select id="getData" resultType="com.test.kakaopaytest.test.Test">
+        select * from board
+    </select>
+</mapper>
