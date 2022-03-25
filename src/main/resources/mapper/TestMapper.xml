@@ -15,4 +15,33 @@
     <select id="getData" resultType="com.test.kakaopaytest.test.Test">
         select * from board
     </select>
+
+    <select id="getDataDetail" resultType="com.test.kakaopaytest.test.Test">
+        select * from board where seq = #{seq}
+    </select>
+
+    <select id="chkAuthData" parameterType="com.test.kakaopaytest.test.Test" resultType="int">
+        select count(*) from board
+        where userId=#{userId}
+            and userPw=SHA2(#{userPw},256)
+            and seq=#{seq}
+    </select>
+
+    <select id="selectResUserId" parameterType="com.test.kakaopaytest.test.Test" resultType="String">
+        select resUserId from board
+        where seq=#{seq}
+    </select>
+
+    <update id="updateResUserId" parameterType="com.test.kakaopaytest.test.Test">
+        update board set
+            resUserId= #{resUserId}
+        where seq=#{seq}
+    </update>
+
+    <update id="updateResContents" parameterType="com.test.kakaopaytest.test.Test">
+        update board set
+            resContents= #{resContents},
+            resYmdt=now()
+        where seq=#{seq}
+    </update>
 </mapper>

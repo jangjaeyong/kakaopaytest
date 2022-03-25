@@ -20,7 +20,7 @@
           <td>{{ item.regYmdt }}</td>
           <td>{{ item.resUserId }}</td>
           <td>{{ item.resYmdt }}</td>
-          <td><button @click="detail(item.seq)">확인</button></td>
+          <td><button @click="detail(item.seq)">글확인</button></td>
         </tr>
       </table>
 
@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     detail(idx){
-      alert(idx);
       this.$router.push({name: 'RequestDetail', query: {idx: idx}})
     },
     getList(){

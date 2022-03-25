@@ -9,4 +9,9 @@ public interface TestMapper {
     List<DbTest> selectTest();
     void saveData(Test test);
     List<Test> getData();
+    Test getDataDetail(int seq);
+    int chkAuthData(Test test);
+    String selectResUserId(Test test);
+    void updateResUserId(Test test);
+    void updateResContents(Test test);
 }

@@ -1,6 +1,6 @@
 # vue-front
 
-> Pay project
+> start : npm run start
 
 ## Build Setup
 

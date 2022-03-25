@@ -21,4 +21,24 @@ public class TestRepositoy {
     public List<Test> getData(){
         return testMapper.getData();
     }
+
+    public Test getDataDetail(int seq){
+        return testMapper.getDataDetail(seq);
+    }
+
+    public int chkAuthData(Test test){
+        return testMapper.chkAuthData(test);
+    }
+
+    public String selectResUserId(Test test){
+        return testMapper.selectResUserId(test);
+    }
+
+    public void updateResUserId(Test test){
+        testMapper.updateResUserId(test);
+    }
+
+    public void updateResContents(Test test){
+        testMapper.updateResContents(test);
+    }
 }

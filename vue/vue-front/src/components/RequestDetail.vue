@@ -1,24 +1,46 @@
 <template>
   <div>
     <div>
-      detail
-      <label for="ID">ID:{{idx}}</label><br>
-      <input id="id" type="text" v-model="id" required/>
+      <router-link to="/">목록으로 이동</router-link>
     </div>
-    <div>
-      <label for="pw">Pw:</label><br>
-      <input id="pw" type="password" v-model="pw" required/>
+    <div v-if="!detailAuth">
+      글읽기 권한 인증
+      <form @submit.prevent="submitForm">
+        <div>
+          <label for="authId">ID:</label><br>
+          <input id="authId" type="text" v-model="authId" required/>
+        </div>
+        <div>
+          <label for="authPw">Pw:</label><br>
+          <input id="authPw" type="password" v-model="authPw" required/>
+        </div>
+        <button type="submit">인증확인</button>
+      </form>
     </div>
-    <div>
-      <label for="title">문의 제목:</label><br>
-      <input id="title" type="text" v-model="title" required/>
-    </div>
-    <div>
-      <label for="contents">문의 내용:</label><br>
-      <textarea id="contents" v-model="contents" required></textarea>
+    <div v-else>
+      <div>
+        ID:{{id}}
+      </div>
+      <div>
+        문의 제목:{{title}}
+      </div>
+      <div>
+        문의 내용: <br>
+        <div style="border: 1px solid">
+          <span v-html="contents"></span>
+        </div>
+      </div>
+      <div>
+        답변 내용: <br>
+        <div style="border: 1px solid">
+          <span v-html="resContents"></span>
+        </div>
+      </div>
+      <div>
+        답변일시:{{resYmdt}}
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -31,14 +53,59 @@ export default {
       pw: '',
       title: '',
       contents: '',
-      idx: this.$route.query.idx
+      resContents: '',
+      resYmdt: '',
+      idx: this.$route.query.idx,
+      detailAuth:false,
+      authId: '',
+      authPw: ''
     }
   },
   methods: {
+    getDetail(idx){
+      this.$axios
+        .get("/api/getDataDetail",{
+          params: {
+            seq: idx
+          }
+        })
+        .then((res) => {
+          if(res.data.result){
+            this.id= res.data.data.userId;
+            this.title= res.data.data.title;
+            this.contents= res.data.data.contents.replace(/\n/g,'<br/>');
+            this.resContents= res.data.data.resContents.replace(/\n/g,'<br/>');
+            this.resYmdt= res.data.data.resYmdt;
+          }else{
+            alert('조회에 실패하였습니다.('+res.data.data+')');
+          }
+        }).catch((error) => { console.log(error);
+      }).finally(() =>{
+      });
+    },
 
+    submitForm(){
+      this.$axios
+        .post("/api/chkAuthData",{
+          userId: this.authId,
+          userPw : this.authPw,
+          seq : this.idx
+        })
+        .then((res) => {
+          if(res.data.result){
+            this.detailAuth=true;
+          }else{
+            alert('인증에 실패하였습니다.');
+          }
+        }).catch((error) => { console.log(error);
+      }).finally(() =>{
+        this.id= '';
+        this.pw= '';
+      });
+    }
   },
   created() {
-    alert();
+    this.getDetail(this.idx);
   }
 }
 

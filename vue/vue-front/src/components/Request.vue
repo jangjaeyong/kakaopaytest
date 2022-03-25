@@ -1,6 +1,9 @@
 <template>
   <form @submit.prevent="submitForm">
     <div>
+      <router-link to="/">목록으로 이동</router-link>
+    </div>
+    <div>
       <label for="ID">ID:</label><br>
       <input id="id" type="text" v-model="id" required/>
     </div>
