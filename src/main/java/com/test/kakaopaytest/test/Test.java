@@ -1,10 +1,12 @@
 package com.test.kakaopaytest.test;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 public class Test {
     private int seq;
     private String userId;
